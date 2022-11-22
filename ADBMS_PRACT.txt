@@ -1,0 +1,49 @@
+tejas> db.Order.find()
+[
+  {
+    _id: ObjectId("637c65c526f66eda794d114f"),
+    cust_id: 'A123',
+    amount: 500,
+    status: 'A'
+  },
+  {
+    _id: ObjectId("637c65da26f66eda794d1150"),
+    cust_id: 'A123',
+    amount: 250,
+    status: 'A'
+  },
+  {
+    _id: ObjectId("637c65ec26f66eda794d1151"),
+    cust_id: 'B212',
+    amount: 200,
+    status: 'A'
+  },
+  {
+    _id: ObjectId("637c660226f66eda794d1152"),
+    cust_id: 'A123',
+    amount: 300,
+    status: 'D'
+  }
+]
+tejas> var mapFunction1 = function(){emit(this.cust_id,this.amount)}
+
+tejas> var reduceFunction1 = function(key,values){return Array.sum(values)};
+
+tejas> db.Order.mapReduce(mapFunction1,reduceFunction1,{"out":"order_totals"})
+{ result: 'order_totals', ok: 1 }
+tejas> db.order_totals.find()
+[ { _id: 'A123', value: 1050 }, { _id: 'B212', value: 200 } ]
+tejas>
+
+
+
+
+
+
+tejas> db.createCollection("student")
+tejas> db.student.insert({"id":101,"Name":"virat","Div":"A","Marks":89})
+tejas> db.student.find().sort({"Marks":-1})
+
+tejas> db.student.update({"Name":"Pandya"},{$set:{"Marks":79}})
+tejas> db.student.find({$or:[{"Div":"A"},{"Marks":{$gt:85}}]})
+tejas> db.student.aggregate([{$match:{"Name":"virat"}},{$group:{_id:"$Div",total:{$sum:"$Marks"}}}])
