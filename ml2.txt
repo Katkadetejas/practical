@@ -1,0 +1,39 @@
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+import pandas as pd
+import sklearn.metrics
+import numpy as np
+df=pd.read_csv('weight-height.csv')
+from sklearn import metrics
+
+x=df.iloc[:,1:2]
+y=df.iloc[:,2]
+
+xtrain,xtest,ytrain,ytest = train_test_split(x,y,test_size=0.25)
+
+reg=LinearRegression()
+
+
+reg.fit(xtrain,ytrain)
+ypred=reg.predict(xtest)
+print(reg.coef_)
+print(reg.intercept_)
+
+plt.scatter(xtest,ytest)
+plt.plot(xtest,ypred,color='red')
+plt.xlabel('Weight')
+plt.ylabel('Height')
+plt.title('Prediction of weight')
+plt.show()
+
+print('Mean Squared Error',metrics.mean_squared_error(ytest,ypred))
+print('Mean Absolute Error',metrics.mean_absolute_error(ytest,ypred))
+
+print('Root Mean Squared Error',np.sqrt(metrics.mean_squared_error(ytest,ypred)))
+rsquare=reg.score(xtrain,ytrain)
+print(rsquare)
+
+rsquare1=reg.score(xtest,ytest)
+print(rsquare1)
+

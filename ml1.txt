@@ -1,0 +1,35 @@
+import pandas as pd
+df = pd.read_csv('Heart.csv')
+df.head()
+df.describe()
+df.shape
+df.isnull()
+df.isnull().sum()
+df.count()
+df.info()
+df.dtypes
+#find out zeros
+df == 0
+df[df == 0]
+df[df == 0].sum()
+df[df == 0].count()
+df.columns
+#label based slicing
+df['Age']
+
+#find mean age of patients
+df['Age'].mean()
+newdf =df[['Age', 'Sex', 'ChestPain', 'RestBP', 'Chol']]
+newdf
+#cross validation 75% train 25% test
+from sklearn.model_selection import train_test_split
+train, test = train_test_split(df, random_state=0,test_size=0.25)
+male=df[df['Sex']==1]
+female=df[df['Sex']==0]
+plt.figure(figsize=(8,6))
+sizes = [male,female]
+labels = 'MALE','FEMALE'
+colors = ['skyblue','red']
+plt.pie(sizes,labels=labels,colors=colors)
+plt.axis('equal')
+plt.show()
